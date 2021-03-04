@@ -10,6 +10,6 @@ make sure you have docker installed
 >  **./docker/setup.sh**
 
 - open your explorer favorite: 
-> **http//locahost:8181**
+> **http//localhost:8181**
 
 	
