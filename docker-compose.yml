@@ -1,0 +1,31 @@
+version: "3.2"
+services:
+  nginx:
+    build: './docker/nginx/'
+    container_name: acilia_nginx
+    depends_on:
+      - php
+      - mysql
+    ports:
+      - "8181:80"
+    volumes:
+      - .:/var/www/html/
+  php:
+    build: './docker/php/'
+    container_name: acilia_php
+    depends_on:
+      - mysql
+    volumes:
+      - .:/var/www/html/
+  mysql:
+    build: './docker/mysql/'
+    container_name: acilia_mysql
+    image: mysql:5.7
+    environment:
+      - MYSQL_DATABASE=acilia_docker
+      - MYSQL_USER=acilia
+      - MYSQL_PASSWORD=acilia
+      - MYSQL_ROOT_PASSWORD=aciliaroot
+    ports:
+      - "3307:3306"
+  

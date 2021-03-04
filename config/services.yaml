@@ -26,6 +26,22 @@ services:
     App\Controller\:
         resource: '../src/Controller/'
         tags: ['controller.service_arguments']
+    
+    App\EventListener\ExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+
+    get_set_method_normalizer:
+        class: Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer
+        tags: [serializer.normalizer]
+
+    # serializer.name_converter.metadata_aware:
+    #     class: 'Symfony\Component\Serializer\NameConverter\MetadataAwareNameConverter'
+    #     public : false
+    
+    App\Normalizer\DateTimeNormalizer:
+        public : false
+        tags: ['serializer.normalizer']
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
