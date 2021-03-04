@@ -7,6 +7,7 @@ use App\Service\ProductService;
 use App\Service\ValidationService;
 use App\Service\SerializationService;
 use App\Controller\ApiControllerTrait;
+use App\Exception\RegisterNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -51,6 +52,8 @@ class ProductController extends AbstractController
     ): JsonResponse
     {   
         $product =  $productService->list($id);
+        if(!$product)
+            throw new RegisterNotFoundException($id);
         return $this->getOkResponse($product, ['product']);
     }
 
@@ -82,6 +85,8 @@ class ProductController extends AbstractController
     ): JsonResponse
     {
         $product = $productService->getProduct($id);
+        if(!$product)
+            throw new RegisterNotFoundException($id);
         $productModel = $serializationService->deserializeRequestBody(ProductModel::class, ['create']);
         $validationService->validateAndThrowExcetion($productModel);
         $product = $productService->update($product, $productModel);
@@ -98,8 +103,10 @@ class ProductController extends AbstractController
     ): JsonResponse
     {
         $product = $productService->getProduct($id);
+        if(!$product)
+            throw new RegisterNotFoundException($id);
         $productService->delete($product);
-        return $this->getOkResponse(null);
+        return $this->getNoContentResponse();
     }
 
     

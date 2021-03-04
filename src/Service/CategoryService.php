@@ -20,7 +20,7 @@ class CategoryService {
     }
 
     public function list(?int $id = null) {
-        return (!$id) ? $this->categoryRepository->findAll(): $this->categoryRepository->find($id);
+        return (!$id) ? $this->categoryRepository->findAll(): $this->categoryRepository->findOneBy(['id'=>$id]);
     }
 
     public function create(CategoryModel $categoryModel) {
@@ -49,7 +49,7 @@ class CategoryService {
 
     public function getCategory(int $id): ?Category
     {
-        return $this->categoryRepository->find($id);
+        return $this->categoryRepository->findOneBy(['id'=>$id]);
     }
 
 }

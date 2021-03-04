@@ -37,7 +37,7 @@ class ProductService {
     }
 
     public function list(?int $id = null) {
-        return (!$id) ? $this->productRepository->findAll(): $this->productRepository->find($id);
+        return (!$id) ? $this->productRepository->findAll(): $this->productRepository->findOneBy(['id'=>$id]);
     }
 
     public function listFeatured($filters=null) {

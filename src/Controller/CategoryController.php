@@ -8,6 +8,7 @@ use App\Service\CategoryService;
 use App\Service\ValidationService;
 use App\Service\SerializationService;
 use App\Controller\ApiControllerTrait;
+use App\Exception\RegisterNotFoundException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -68,6 +69,7 @@ class CategoryController extends AbstractController
     ): JsonResponse
     {
         $category = $categoryService->getCategory($id);
+            
         $categoryModel = $serializationService->deserializeRequestBody(CategoryModel::class, ['create']);
         $validationService->validateAndThrowExcetion($categoryModel);
         $category = $categoryService->update($category, $categoryModel);
@@ -85,6 +87,6 @@ class CategoryController extends AbstractController
     {
         $category = $categoryService->getCategory($id);
         $categoryService->delete($category);
-        return $this->getOkResponse(null);
+        return $this->getNoContentResponse();
     }
 }
